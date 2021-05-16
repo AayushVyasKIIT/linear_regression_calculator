@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png">
+    <link rel="manifest" href="static/site.webmanifest">
+    <title>LRC</title>
+</head>
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  table, th, td {
+  border: 0.25px dashed gray;
+  padding: 5px;
+  color: black;
+  border-radius: 20px;
+}
+th{
+  border: 1px solid black
+}
+#pred {
+  visibility: hidden;
+}
+table:hover{
+  opacity:1;
+  border: 3px solid rgba(36,151,255,0.6);
+}
+</style>
+<body>
+  {% if in_flag == True %}  
+  <img class="flex-shrink-0 rounded-lg w-28 h-28 mt-4 mx-auto" src="/static/android-chrome-192x192.png">
+  <form method="POST" action="/" >
+  <section class="text-gray-600 body-font mb-40">
+    <div class="container px-5 py-8 mx-auto">
+      <div class="flex flex-col text-center w-full mb-5">
+        <h1 class="sm:text-5xl text-4xl font-bold title-font mb-4 text-gray-900">Linear Regression Calculator</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">An online one-step solution for solving problems related to linear regression,obtain values, see visual representation and predict future values.</p>
+      </div>
+      <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+        <div class="relative flex-grow w-full">
+          <label for="x" class="leading-7 text-2xl font-bold text-sm text-gray-600">x:<input placeholder = "Enter the values for x" type="text" id="x" name="x"  class="w-full bg-gray-100 bg-opacity-50 mt-1 rounded border border-gray-300 focus:border-blue-500 focus:bg-transparent focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></label>
+        </div>
+        <div class="relative flex-grow w-full">
+          <label for="y" class="leading-7 text-2xl font-bold text-sm text-gray-600">y:<input placeholder = "Enter the values for y" type="text" id="y" name="y"  class="w-full bg-gray-100 bg-opacity-50 mt-1 rounded border border-gray-300 focus:border-blue-500 focus:bg-transparent focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></label>
+        </div>
+        <button type="submit" class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg ">Calculate</button>
+      </div>
+    </div>
+  </section>
+  {% else %}
+  <form method="POST" action="/" >
+    <img class="flex-shrink-0 rounded-lg w-28 h-28 mt-4 mx-auto" src="/static/android-chrome-192x192.png">
+    <form method="POST" action="/" >
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-8 mx-auto">
+        <div class="flex flex-col text-center w-full mb-5">
+          <h1 class="sm:text-5xl text-4xl font-bold title-font mb-4 text-gray-900">Linear Regression Calculator</h1>
+          <p class="lg:w-2/3 mx-auto font-medium leading-relaxed text-base">An online one-step solution for solving problems related to linear regression,obtain values, see visual representation and predict future values.</p>
+        </div>
+        <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+          <div class="relative flex-grow w-full">
+            <label for="x" class="leading-7 text-2xl font-bold text-sm text-gray-600">x:</label>
+            <input type="text" id="x" name="x" value = {{i1}} class="w-full bg-gray-100 mt-1 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-transparent focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          </div>
+          <div class="relative flex-grow w-full">
+            <label for="y" class="leading-7 text-2xl font-bold text-sm text-gray-600">y:</label>
+            <input type="text" id="y" name="y" value = {{i2}} class="w-full bg-gray-100 mt-1 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-transparent focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          </div>
+          <button type="submit" class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Calculate</button>
+        </div>
+      </div>
+    </section>
+  
+      {% if flag == True %}
+    <div class="md:w-full items-center text-center py-10">
+      <div class="md:w-full items-center text-center p-2">
+          <h2 class="text-gray-900 font-bold title-font tracking-wider text-sm">BEST FITTED LINE(BFL):</h2>
+          <p class="text-gray-500 text-xl" > ŷ = {{bfl["m"]}}*x + {{bfl["c"]}}
+      </div>
+      <div class="md:w-full items-center text-center p-5">
+          <h2 class="text-gray-900 font-bold title-font tracking-wider text-sm">LEAST SQUARE ERROR(RMS):</h2>
+          <p class="text-gray-500 text-xl "> {{least_square}} </p>
+      </div>
+      <div class = "bg-gray-100 p-5 rounded object-center">
+            <h2 class="text-gray-900 font-bold title-font tracking-wider text-sm">TABLE OF CALCULATIONS FOR LINEAR REGRESSION</h2>
+            {%for each in table %}
+              <div class = "flex flex-wrap w-full flex-col items-center text-center"> {{each| safe}} 
+            {%endfor%}
+          </div>
+    </div>
+    <div class="pt-5">
+      <div class="h-full text-center">
+        <p class="leading-relaxed">The obtained table consists of all the paramters that are neccessary for the calculations.</p>
+        <span class="inline-block h-1 w-10 rounded bg-blue-500 mt-5 mb-2"></span>
+        <h2 class="text-gray-900 font-medium text-xl title-font tracking-wider text-sm">Graphical Representation</h2>
+        <p class="text-gray-500">x vs y</p>
+      </div>
+    </div>
+    <div class="mt-5 p-5 lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded mb-12 rounded-lg h-64 overflow-hidden container px-5 mx-auto flex flex-wrap h-full bg-gray-100 bg-opacity-75 rounded-lg overflow-hidden text-center relative"">
+      <canvas id="myChart"></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    
+</div>
+<script>
+
+  var ctx = document.getElementById("myChart");
+
+var myChart = new Chart(ctx, {
+  type: 'scatter',
+  data: {
+    datasets: [
+    	{
+        label: 'Data',
+        data: {{data | safe}},
+        showLine: false,
+        fill: false,
+        borderColor: 'rgba(36, 151, 250, 1)',
+        pointRadius: 5,
+        pointBackgroundColor : 'rgba(36, 151, 250, 1)'
+    	},
+      {
+        label: 'BFL',
+        data: {{bfl_data | safe}},
+        showLine: true,
+        fill: false,
+        borderColor: 'rgba(255, 0, 0, 0.5)',
+        pointRadius : 0,
+    	}
+    ]
+  },
+  options: {
+    tooltips: {
+      mode: 'index',
+      intersect: false,
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:false
+        }
+      }]
+    },
+  }
+});
+</script>
+<style>
+  #pred {
+    visibility: visible;
+  }
+</style>
+{% endif %}
+{% endif %}
+<section id = "pred" class="text-gray-800 body-font ml-40">
+  <div class="container mx-auto flex px-9  py-8 md:flex-row flex-col items-center">
+    <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+      <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900">Predict!</h1>
+      <p class="mb-2 leading-relaxed">Given unknown values from future you can predict estimated answers for them.</p>
+      <div class="flex w-full md:justify-start justify-center items-end">
+        <div class="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
+          <label for="predict_4x" class="leading-7 text-2xl font-medium text-sm text-gray-600">x:</label>
+          <input placeholder = "Enter single value of x" type="text" id="predict_4x" name="predict_4x" class="w-full bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-blue-200 focus:bg-transparent focus:border-blue-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+        </div>
+        <button type="submit" id="a_flag" value=False class="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Estimate</button>
+      </div>
+      <p class="text-sm mt-2 text-gray-700 mb-8 w-full">This will give an estimated value for provided future value.</p>
+    </div>
+    <div class="flex flex-wrap -m-2">
+      <div class="p-2  w-full">
+        <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+          {% if pred_flag == True %}
+          <div class="">
+            <div class="h-full text-center">
+              <span class="inline-block h-1 w-20 rounded bg-blue-500 mt-5 mb-2"></span>
+              <h2 class="text-gray-900 title-font tracking-wider "><div class="rounded">Predicted value for <span class="text-xl font-bold">x={{predict_x}}</span> is <span class="text-xl font-bold">ŷ={{predict_y}}</span>.</div></h2>
+              <p class="text-sm text-gray-700">This is the estimated value obtained using the best fitted line that was found out abover.</p>
+            </div>
+            <script>
+              function scrollToBottom() {
+                  window.scrollTo(0, document.body.scrollHeight);
+              }
+              history.scrollRestoration = "manual";
+              window.onload = scrollToBottom;
+          </script>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+</section>
+</form>
+<footer>
+  <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+    <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+      <span class="ml-3 text-xl"><img src="/static/favicon-32x32.png" ></span>
+    </a>
+    <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2020 Linear Regression Calculator —
+      <a href="https://twitter.com/inaayushAV" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">@inaayushAV</a>
+    </p>
+    <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">Github —
+      <a href="https://twitter.com/inaayushAV" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">githubprepository</a>
+    </p>
+    <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
+      <a href="https://twitter.com/inaayushAV" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">Made with <3 in India</a>
+    </p>
+    <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+      <a href="https://facebook.com/aayush.vyas.7330" class="text-gray-500">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+        </svg>
+      </a>
+      <a href="https://twitter.com/inaayushAV" class="ml-3 text-gray-500">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-500">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+        </svg>
+      </a>
+      <a href="https://www.linkedin.com/in/aayush-vyas-29407b1b8/"class="ml-3 text-gray-500">
+        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+        </svg>
+      </a>
+    </span>
+  </div>
+</footer>
+</body>
+</html>
